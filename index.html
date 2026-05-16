@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Tokyo 2026">
+<meta name="theme-color" content="#0a0910">
+<title>🗼 Tokyo 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DotGothic16&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0a0910;--bg2:#0f0e1a;--bg3:#13112a;--bg4:#1a1830;
+  --bd:#2a2540;--bd2:#3a3560;
+  --text:#c8daf6;--t2:#88bbff;--t3: #6f90c0;--t4: #3b5080;
+  --pink:#f4a8c8;--pink2:#e8789a;--blue:#9ec5f5;--amber:#f0dba0;
+  --px:'DotGothic16',monospace;--mono:'Space Mono',monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html,body{height:100%;overflow:hidden}
+body{background:var(--bg);color:var(--text);font-family:var(--px);font-size:13px;display:flex;flex-direction:column}
+
+/* TOPBAR */
+#topbar{background:rgba(10,9,16,.96);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid var(--bd);padding:12px 16px 10px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;min-height:48px}
+.tb-title{font-size:13px;color:var(--pink);letter-spacing:.08em}
+.tb-r{font-size:10px;color:var(--t3);text-align:right;line-height:1.4;font-family:var(--mono);white-space:pre}
+.tb-back{font-size:12px;color:var(--pink);cursor:pointer;letter-spacing:.04em;padding:2px 0}
+
+/* SCROLL */
+#scroll{flex:1;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch}
+#scroll::-webkit-scrollbar{display:none}
+
+/* BOTTOM NAV */
+#bnav{background:rgba(10,9,16,.96);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-top:1px solid var(--bd);display:flex;flex-shrink:0;padding-bottom:env(safe-area-inset-bottom)}
+.ni{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;padding:10px 0 8px;cursor:pointer;color:var(--t4);transition:color .15s}
+.ni.active{color:var(--pink)}
+.ni-icon{font-size:18px;line-height:1}
+.ni-lb{font-size:9px;letter-spacing:.06em}
+
+/* PAGES */
+.page{display:none;padding-bottom:8px}
+.page.active{display:block}
+
+/* ── HOME ── */
+.h-hero{padding:20px 16px 16px;border-bottom:1px solid var(--bd)}
+.h-eye{font-size:9px;color:var(--t3);letter-spacing:.15em;text-transform:uppercase;margin-bottom:6px;font-family:var(--mono)}
+.h-greet{font-size:22px;color:var(--text);line-height:1.2;margin-bottom:4px}
+.h-greet em{color:var(--pink);font-style:normal}
+.h-clock{font-family:var(--mono);font-size:32px;color:var(--text);letter-spacing:-.02em;}
+.h-date{font-size:10px;color:var(--t3);margin-top:4px;font-family:var(--mono);margin-top:20px}
+
+.today-btn{margin:16px;background:var(--bg3);border:1px solid var(--pink);border-radius:6px;padding:14px 16px;cursor:pointer;display:flex;align-items:center;justify-content:space-between;transition:background .15s}
+.today-btn:active{background:var(--bg4)}
+.tb-label{font-size:9px;color:var(--pink);letter-spacing:.15em;text-transform:uppercase;margin-bottom:4px;font-family:var(--mono)}
+.tb-t{font-size:13px;color:var(--text)}
+.tb-m{font-size:9px;color:var(--t3);margin-top:3px;font-family:var(--mono)}
+.tb-arr{font-size:16px;color:var(--pink)}
+
+.days-sec{padding:0 16px 32px}
+.sec-lb{font-size:9px;color:var(--t4);letter-spacing:.15em;text-transform:uppercase;padding:16px 0 10px;font-family:var(--mono)}
+.days-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.dc{background:var(--bg2);border:1px solid var(--bd);border-radius:6px;padding:12px;cursor:pointer;transition:border-color .15s,transform .1s}
+.dc:active{transform:scale(.97)}
+.dc.today{border-color:var(--pink);background:var(--bg3)}
+.dc-n{font-size:8px;color:var(--t4);letter-spacing:.1em;margin-bottom:3px;font-family:var(--mono)}
+.dc-d{font-size:12px;color:var(--text);margin-bottom:4px}
+.dc.today .dc-d{color:var(--pink)}
+.dc-c{font-size:9px;color:var(--t3);line-height:1.6}
+.dc-cnt{font-size:8px;color:var(--t4);margin-top:6px;font-family:var(--mono)}
+
+/* ── DAY ── */
+.day-hdr{padding:14px 16px 12px;border-bottom:1px solid var(--bd)}
+.dh-lb{font-size:9px;color:var(--pink);letter-spacing:.15em;margin-bottom:3px;font-family:var(--mono)}
+.dh-t{font-size:16px;color:var(--text);margin-bottom:4px}
+.dh-h{font-size:10px;color:var(--t3)}
+.items-wrap{padding:10px 12px 32px;display:flex;flex-direction:column;gap:6px}
+.city-sep{font-size:8px;color:var(--pink);letter-spacing:.2em;padding:6px 2px 2px;opacity:.5;font-family:var(--mono)}
+
+/* ITEM CARD */
+.ic{background:var(--bg2);border:1px solid var(--bd);border-radius:6px;overflow:hidden;animation:fadeUp .25s ease both}
+@keyframes fadeUp{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}
+
+.ic-top{padding:9px 11px 8px;background:var(--bg3);cursor:pointer}
+.ic-r1{display:flex;align-items:center;justify-content:space-between;margin-bottom:4px}
+.ic-time{font-size:9px;color:var(--blue);letter-spacing:.06em;font-family:var(--mono)}
+.ic-arr{font-size:11px;color:var(--t4);transition:transform .2s;line-height:1}
+.ic-arr.open{transform:rotate(180deg);color:var(--pink)}
+.ic-tr{display:flex;align-items:baseline;flex-wrap:wrap;gap:5px;margin-bottom:3px}
+.ic-title{font-size:11px;color:var(--text);line-height:1.35}
+.atag{display:inline-flex;background:var(--bg4);border:1px solid var(--bd2);border-radius:3px;padding:1px 5px;flex-shrink:0}
+.atag span{font-size:7px;color:#a090c0;letter-spacing:.06em}
+.ic-trs{font-size:9px;color:var(--t3)}
+.bdg-row{display:flex;gap:4px;flex-wrap:wrap;margin-top:5px}
+.bdg{font-size:7px;padding:2px 6px;border-radius:3px;letter-spacing:.04em}
+.bdg-r{background:#0d1e28;color:var(--blue);border:1px solid #1a3045}
+.bdg-t{background:#0d1520;color:var(--blue);border:1px solid #1a2a40}
+
+/* CARD BODY */
+.ic-body{padding:8px 10px 10px;display:flex;flex-direction:column;gap:5px}
+.ic-body.hidden{display:none}
+.blk{border-left:2px solid var(--pink);padding:4px 8px;background:#170f1e;border-radius:0 3px 3px 0}
+.blk.bl{border-color:var(--blue);background:#0f1520}
+.blk.pu{border-color:var(--blue);background:#0f1520}
+.blk-lb{font-size:7px;color:#888;letter-spacing:.1em;text-transform:uppercase;margin-bottom:2px;font-family:var(--mono)}
+.blk-vl{font-size:9px;color:var(--t2);line-height:1.7;white-space:pre-wrap;word-break:break-word}
+.rg{display:grid;grid-template-columns:1fr 1fr;gap:4px;margin-top:4px}
+.rc{background:#0d1520;border:1px solid #1a3045;border-radius:4px;padding:5px 7px}
+.rc-lb{font-size:7px;color:#555;letter-spacing:.08em;text-transform:uppercase;margin-bottom:2px;font-family:var(--mono)}
+.rc-vl{font-size:10px;color:var(--blue);letter-spacing:.04em}
+.map-btn{display:flex;align-items:center;gap:6px;background:#1a0f24;border:1px solid var(--pink);border-radius:4px;padding:7px 10px;margin-top:2px;text-decoration:none;transition:background .15s}
+.map-btn:active{background:#2a1f34}
+.map-btn span{font-size:9px;color:var(--pink)}
+.must-list{display:flex;flex-direction:column;gap:2px;margin-top:3px}
+.mi{font-size:9px;color:var(--t2);line-height:1.6;padding-left:10px;position:relative}
+.mi::before{content:'›';position:absolute;left:0;color:var(--pink)}
+.task-list{display:flex;flex-direction:column}
+.tr{display:flex;align-items:flex-start;gap:8px;padding:5px 0;border-bottom:1px solid var(--bd);cursor:pointer}
+.tr:last-child{border-bottom:none}
+.tcb{width:12px;height:12px;border:1px solid var(--bd2);border-radius:2px;flex-shrink:0;margin-top:1px;display:flex;align-items:center;justify-content:center;transition:all .15s}
+.tr.done .tcb{background:var(--pink);border-color:var(--pink)}
+.tr.done .tcb::after{content:'✓';font-size:8px;color:#0a0910;font-weight:700}
+.t-text{font-size:9px;color:var(--t2);line-height:1.5;flex:1}
+.tr.done .t-text{text-decoration:line-through;color:var(--t4)}
+
+/* ── CHECKLIST ── */
+.chk-page{padding:12px 16px 32px}
+.chk-sec{margin-bottom:20px}
+.chk-sec-t{font-size:10px;color:var(--pink);letter-spacing:.12em;padding-bottom:8px;border-bottom:1px solid var(--bd);margin-bottom:8px;font-family:var(--mono)}
+.cr{display:flex;align-items:flex-start;gap:10px;padding:8px 0;border-bottom:1px solid var(--bd);cursor:pointer}
+.cr:last-child{border-bottom:none}
+.ccb{width:14px;height:14px;border:1px solid var(--bd2);border-radius:3px;flex-shrink:0;margin-top:1px;display:flex;align-items:center;justify-content:center;transition:all .15s}
+.cr.done .ccb{background:var(--pink);border-color:var(--pink)}
+.cr.done .ccb::after{content:'✓';font-size:9px;color:#0a0910;font-weight:700}
+.cr-text{font-size:11px;color:var(--t2);line-height:1.5;flex:1}
+.cr.done .cr-text{text-decoration:line-through;color:var(--t4)}
+.add-row{display:flex;gap:8px;margin-top:10px}
+.add-inp{flex:1;background:var(--bg3);border:1px solid var(--bd2);border-radius:4px;padding:8px 10px;color:var(--text);font-family:var(--px);font-size:11px;outline:none}
+.add-inp::placeholder{color:var(--t4)}
+.add-inp:focus{border-color:var(--pink)}
+.add-btn{background:var(--bg3);border:1px solid var(--pink);border-radius:4px;padding:8px 12px;color:var(--pink);font-family:var(--px);font-size:11px;cursor:pointer;transition:background .15s}
+.add-btn:active{background:var(--bg4)}
+
+/* ── TOOLS ── */
+.tools-page{padding:14px 16px 32px;display:flex;flex-direction:column;gap:16px}
+.tool-card{background:var(--bg2);border:1px solid var(--bd);border-radius:6px;overflow:hidden}
+.tool-hdr{background:var(--bg3);padding:10px 14px;font-size:10px;color:var(--pink);letter-spacing:.12em;font-family:var(--mono)}
+.w-inner{padding:12px 14px}
+.wcity-tabs{display:flex;gap:6px;margin-bottom:12px;flex-wrap:wrap}
+.wct{background:var(--bg4);border:1px solid var(--bd);border-radius:4px;padding:4px 10px;font-size:9px;color:var(--t3);cursor:pointer;transition:all .15s;font-family:var(--mono)}
+.wct.active{background:#1a0f24;border-color:var(--pink);color:var(--pink)}
+.w-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.wc{background:var(--bg3);border:1px solid var(--bd);border-radius:5px;padding:10px 12px;text-align:center}
+.wc-day{font-size:8px;color:var(--t3);margin-bottom:4px;font-family:var(--mono)}
+.wc-icon{font-size:22px;margin:4px 0}
+.wc-temp{font-size:12px;color:var(--text);font-family:var(--mono)}
+.wc-desc{font-size:8px;color:var(--t3);margin-top:3px}
+.w-msg{font-size:10px;color:var(--t3);text-align:center;padding:20px 0;font-family:var(--mono)}
+.fx-inner{padding:12px 14px}
+.fx-row{display:flex;align-items:center;gap:8px;margin-bottom:8px}
+.fx-lb{font-size:9px;color:var(--t3);font-family:var(--mono);min-width:32px}
+.fx-inp{flex:1;background:var(--bg3);border:1px solid var(--bd2);border-radius:4px;padding:8px 10px;color:var(--text);font-family:var(--mono);font-size:14px;outline:none;text-align:right}
+.fx-inp:focus{border-color:var(--pink)}
+.fx-arr{font-size:11px;color:var(--t3);text-align:center;padding:2px 0}
+.fx-rate{font-size:9px;color:var(--t4);text-align:center;font-family:var(--mono);margin-top:4px}
+.qg{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:10px}
+.qc{background:var(--bg3);border:1px solid var(--bd);border-radius:4px;padding:8px;cursor:pointer;transition:border-color .15s;text-align:center}
+.qc:active{border-color:var(--pink)}
+.qc-j{font-size:11px;color:var(--t2);font-family:var(--mono)}
+.qc-t{font-size:11px;color:var(--pink);font-family:var(--mono);margin-top:2px}
+
+@keyframes blink{0%,100%{opacity:.2}50%{opacity:1}}
+.dl span{animation:blink 1.2s ease-in-out infinite}
+.dl span:nth-child(2){animation-delay:.2s}
+.dl span:nth-child(3){animation-delay:.4s}
+</style>
+
+<link rel="manifest" href="manifest.json">
+<script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('sw.js');
+  }
+</script>
+</head>
+<body>
+<div id="topbar">
+  <div id="tbl"></div>
+  <div class="tb-title" id="tbt">🗼 TOKYO 2026</div>
+  <div class="tb-r" id="tbr"></div>
+</div>
+<div id="scroll">
+  <div class="page active" id="pg-home">
+    <div class="h-hero">
+      <div class="h-eye" id="h-eye">LOADING...</div>
+      <div class="h-greet">生日快樂，<em>小朋友們</em>！🗼</div>
+      <div class="h-date" id="h-dt"></div>
+      <div class="h-clock" id="h-clk">--:--</div>
+    </div>
+    <div id="today-wrap"></div>
+    <div class="days-sec">
+      <div class="sec-lb">> ALL DAYS</div>
+      <div class="days-grid" id="days-grid"><div style="grid-column:1/-1;text-align:center;padding:20px;color:var(--t4);font-size:10px" class="dl"><span>.</span><span>.</span><span>.</span></div></div>
+    </div>
+  </div>
+  <div class="page" id="pg-day">
+    <div class="day-hdr" id="day-hdr"></div>
+    <div class="items-wrap" id="items-wrap"></div>
+  </div>
+  <div class="page" id="pg-chk">
+    <div class="chk-page" id="chk-page"></div>
+  </div>
+  <div class="page" id="pg-tools">
+    <div class="tools-page">
+      <div class="tool-card">
+        <div class="tool-hdr">> 天氣 WEATHER</div>
+        <div class="w-inner">
+          <div class="wcity-tabs">
+            <div class="wct active" onclick="selCity('Tokyo')">東京</div>
+            <div class="wct" onclick="selCity('Atami')">熱海</div>
+            <div class="wct" onclick="selCity('Hakone')">箱根</div>
+            <div class="wct" onclick="selCity('Kawaguchiko')">河口湖</div>
+          </div>
+          <div id="w-disp"><div class="w-msg dl"><span>.</span><span>.</span><span>.</span></div></div>
+        </div>
+      </div>
+      <div class="tool-card">
+        <div class="tool-hdr">> 匯率換算 JPY ↔ TWD</div>
+        <div class="fx-inner">
+          <div class="fx-row"><div class="fx-lb">JPY ¥</div><input class="fx-inp" id="fx-j" type="number" placeholder="0" oninput="calcFx('j')"></div>
+          <div class="fx-arr">↕</div>
+          <div class="fx-row" style="margin-top:6px"><div class="fx-lb">TWD $</div><input class="fx-inp" id="fx-t" type="number" placeholder="0" oninput="calcFx('t')"></div>
+          <div class="fx-rate">1 JPY ≈ 0.218 TWD（參考匯率）</div>
+          <div class="sec-lb" style="padding:12px 0 8px">> 快速換算</div>
+          <div class="qg" id="qg"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div id="bnav">
+  <div class="ni active" id="ni-home" onclick="goPg('home')"><div class="ni-icon">🗾</div><div class="ni-lb">行程</div></div>
+  <div class="ni" id="ni-chk" onclick="goPg('chk')"><div class="ni-icon">📋</div><div class="ni-lb">待辦</div></div>
+  <div class="ni" id="ni-tools" onclick="goPg('tools')"><div class="ni-icon">🛠</div><div class="ni-lb">工具</div></div>
+</div>
+
+<script>
+// ── DATA ──────────────────────────────────────────────────────────────────────
+const DAYS=[
+  {day:1,date:'5/24',wd:'週日',cities:['桃園','東京','熱海'],hotel:'ロマンス座カド / 熱海',items:[
+    {id:'1-1',time:'06:35–11:00',icon:'✈️',title:'TPE → NRT｜虎航 IT200',area:'桃園',trs:'台灣虎航 IT200',desc:'T2機場B1 JR售票機購買成田特快\n\n前後班次\n[N\'EX 22] 12:23~13:14\n[N\'EX 24] 12:48~13:44\n[N\'EX 26] 13:17~14:14',tasks:['購買/劃位 N\'EX（機場→東京）','購買/劃位 新幹線（東京→熱海）','領取 富士回遊號預訂票（5/27）']},
+    {id:'1-2',time:'12:20–13:20',icon:'🚇',title:'NRT → 東京車站',area:'東京',trs:'成田特快 NEX [1hr]',desc:'🍱 午：鐵路便當'},
+    {id:'1-3',time:'13:20–14:10',icon:'🚇',title:'東京車站 → 熱海站',area:'東京',trs:'東海道新幹線 Kodama [50min]',desc:'N\'EX月台→14~19號月台（走路15min）\n\n前後班次\n[Kodama 731] 13:33~14:12\n[Kodama 735] 14:33~15:12'},
+    {id:'1-4',time:'14:30',icon:'🧳',title:'Check In ＋ 寄放行李',area:'熱海',trs:'🚶 步行',desc:'入住開放 15:00–21:00\n💰 住宿稅：200日圓現金/人',mapUrl:'https://maps.app.goo.gl/XmnREjQLdJLxR7ucA'},
+    {id:'1-5',time:'',icon:'🏖️',title:'海邊佔位',area:'熱海',trs:'🚶 步行',desc:'🚩 椰子樹下第一排\n附近藥妝店可買簡易野餐墊',mapUrl:'https://maps.app.goo.gl/fbFRAGoYsgzJMBg19'},
+    {id:'1-6',time:'15:30',icon:'🍢',title:'商店街巡禮：平和通、仲見世通',area:'熱海',trs:'🚶 步行',mustEat:['Isoage Maruten Atami [09-15:30] 海鮮串・章魚天婦羅','Atami Butter An [10-18] 紅豆奶油麵包','いいらまんじゅう 阿部商店 [10-17:30] 溫泉饅頭','Atami Onsen Kameyama Shachu [10-17] 溫泉饅頭串'],mapUrl:'https://maps.app.goo.gl/hQDeNxnt6A92ry868'},
+    {id:'1-7',time:'18:00',icon:'🍣',title:'🍱 晚：海鮮丼専門 五鉄熱海店',area:'熱海',trs:'🚶 步行',desc:'附近\n熱海さとり本店 [10-18] 巨大抹茶可麗餅\nAtami Pudding Cafe 2nd [10-18] 布丁',mapUrl:'https://maps.app.goo.gl/UEZ5gf4ZpWd1zzhBA'},
+    {id:'1-8',time:'20:20–20:40',icon:'🎆',title:'熱海海上花火大會 @熱海灣',area:'熱海',trs:'🚶 步行',desc:'壓軸：「大空中尼加拉瀑布」煙火',mapUrl:'https://maps.app.goo.gl/LcxuHRhbQh6s2QgE8'},
+    {id:'1-9',time:'宵夜',icon:'🏪',title:'宵夜：超商或居酒屋',area:'熱海',desc:'Sakaba Atami [18-02] 居酒屋\nAtami Stand [18-00] 居酒屋\nMaxValu Atami [07-23:30] 超市'},
+  ]},
+  {day:2,date:'5/25',wd:'週一',cities:['熱海','箱根'],hotel:'lake side inn mirahakone / 箱根',items:[
+    {id:'2-1',time:'8:30',icon:'🍳',title:'🍱 早：飯店早餐',area:'熱海'},
+    {id:'2-2',time:'9:00',icon:'🧳',title:'退房出門',area:'熱海',desc:'退房期限 11:00'},
+    {id:'2-3',time:'',icon:'🧳',title:'行李寄放：熱海車站置物櫃',area:'熱海',trs:'🚶 步行'},
+    {id:'2-4',time:'9:30',icon:'⛩️',title:'來宮神社 Kinomiya',area:'熱海',trs:'方案A：🚌 巴士「西山/梅園」方向\n方案B：🚇 JR伊東線-來宮站[3min] 步行5min',desc:'・繞大楠樹走一圈、森林浴\n・買御守',mapUrl:'https://maps.app.goo.gl/ykDeUwFn5zi1ALXV8'},
+    {id:'2-5',time:'11:30',icon:'🏃',title:'回熱海車站 領行李',area:'熱海',trs:'🚌 巴士 或 🚇 JR伊東線',desc:'⚠️ 11:30前回熱海車站準備',mapUrl:'https://maps.app.goo.gl/ZJ2tUG4cxd762cB6A'},
+    {id:'2-6',time:'11:48',icon:'🚌',title:'熱海站 → 元箱根港',area:'熱海',trs:'🚌 伊豆箱根巴士 2號站牌 [60min]',desc:'・車身藍紅白三色橫線的伊豆箱根バス\n・用Suica上下車各刷一次\n・靠右窗可看富士山與箱根山景\n車資：約1,200日圓\n\n💴 元箱根港購買【箱根周遊券 2日券】'},
+    {id:'2-7',time:'12:50',icon:'🧳',title:'行李寄放：元箱根港巴士總站',area:'箱根',trs:'🚶 步行 [2min]',mapUrl:'https://maps.app.goo.gl/titaRghUcDG3p9Vz6'},
+    {id:'2-8',time:'13:00',icon:'🎨',title:'成川美術館 Narukawa',area:'箱根',trs:'🚶 步行 [3min]',desc:'展望咖啡廳對著「畫框富士山、蘆之湖」發呆\n13:00–14:00 最佳拍攝光線\n💰 門票：約1,500日圓（箱根周遊券折200日圓）',mapUrl:'https://maps.app.goo.gl/Cc9PiRXcutDio6x26'},
+    {id:'2-9',time:'14:15–14:50',icon:'🚢',title:'搭乘海盜船！元箱根港 → 桃源台',area:'箱根',trs:'🚢 箱根海盜船 [30-40min]',desc:'航行蘆之湖，尋找富士山蹤影\n⚠️ 海盜船40分鐘一班，錯過麻煩',mapUrl:'https://maps.app.goo.gl/AjizAjpUtABu1F9o7'},
+    {id:'2-10',time:'15:00',icon:'🚠',title:'桃源台 → 大涌谷',area:'箱根',trs:'🚠 箱根空中纜車 [20min]',desc:'高空絕景：俯瞰硫磺噴煙\n🍘 必吃黑雞蛋（延壽7年）！5顆500日圓\n⚠️ 在大湧谷停留40分鐘內最保險'},
+    {id:'2-11',time:'15:50',icon:'🚠',title:'大涌谷 → 早雲山 → 強羅',area:'箱根',trs:'🚠 空中纜車[10min] → 🚃 斜面電車[10min]',desc:'極陡坡度體驗，班次密集'},
+    {id:'2-12',time:'16:45',icon:'🚃',title:'強羅 → 箱根湯本',area:'箱根',trs:'🚃 箱根登山鐵道 [40min]（16:20/16:40班次）',desc:'【重點】體驗 Switchback 之字型爬坡'},
+    {id:'2-13',time:'17:20',icon:'🛍️',title:'箱根湯本車站晃晃',area:'箱根',desc:'🎁 伴手禮：箱根饅頭'},
+    {id:'2-14',time:'17:40',icon:'🍲',title:'🍱 晚：牛鍋右近 Gyunabe Ukon',area:'箱根',trs:'🚕 計程車 [5-10min]',desc:'【慶生晚餐】川床（河畔平台）＋ 牛肉壽喜燒\n18:45 才日落\n💰 計程車：約1,000–1,200日圓',reservation:{id:'RV2WCU',time:'17:30 川戶座',menu:'特別課程'},isReserved:true},
+  ]},
+  {day:3,date:'5/26',wd:'週二',cities:['箱根','河口湖'],hotel:'The Garden Resort & Condominium / 河口湖',items:[
+    {id:'3-1',time:'7:30',icon:'⛩️',title:'平和鳥居',area:'箱根',trs:'🚶 步行',desc:'水上鳥居拍照\n趁8點前人潮稀疏，拍出空靈感'},
+    {id:'3-2',time:'8:15',icon:'⛩️',title:'箱根神社',area:'箱根',trs:'🚶 步行',desc:'順著階梯往上走就是箱根神社本部\n🎁 御守（授與所 8:00–17:00）\n・戀愛成就、交通安全御守、繪馬'},
+    {id:'3-3',time:'9:00',icon:'🧳',title:'回飯店整理 & 退房',area:'箱根',trs:'🚶 步行 [10min]',desc:'退房後步行至元箱根港巴士站'},
+    {id:'3-4',time:'9:10/10:10',icon:'🚌',title:'元箱根港 → 御殿場站',area:'箱根',trs:'🚌 箱根登山巴士 R路線 [65min]',desc:'班次：09:10、10:10、11:10\n費用：刷西瓜卡 1,400\n* 沒趕上10:10可改搭海賊船到桃源台轉車'},
+    {id:'3-5',time:'10:30',icon:'🚌',title:'御殿場站 → 河口湖站',area:'御殿場',trs:'🚌 富士急行巴士 A1線 [75min]',desc:'乘車：富士山口(西口) 2號站牌\n班次：10:30、11:00、12:40\n費用：刷西瓜卡 1,800'},
+    {id:'3-6',time:'11:45',icon:'🗻',title:'河口湖站 抵達！',area:'河口湖',desc:'終於看見超大的富士山！\n🧳 行李寄放：富士觀光大廈（車站對面）'},
+    {id:'3-7',time:'12:00',icon:'📸',title:'Lawson & 7-11 站前店',area:'河口湖',trs:'🚶 步行',desc:'拍馬路富士山經典位'},
+    {id:'3-8',time:'12:20',icon:'🍜',title:'🍱 午：不動餺飥 Houtou Fudo',area:'河口湖',trs:'🚶 步行',desc:'鄉土料理餺飥（南瓜味噌麵）'},
+    {id:'3-9',time:'13:45',icon:'⛩️',title:'天空鳥居（遙拜所）',area:'河口湖',trs:'🚕 計程車'},
+    {id:'3-10',time:'15:00',icon:'🚲',title:'電動腳踏車環湖',area:'河口湖',trs:'🚲 電輔車（租車 @Soraen）',desc:'深度環湖：河口湖大橋 → 北岸步道 → 大石公園'},
+    {id:'3-11',time:'',icon:'🌸',title:'大石公園（河口湖自然生活館）',area:'河口湖',trs:'🚲 電輔車 [15-20min]',desc:'拍「逆富士」與花海最知名的景點\n🎁 富士山相關商品'},
+    {id:'3-12',time:'16:30',icon:'🧳',title:'還車 & 領行李',area:'河口湖',trs:'🚲 電輔車 [20-25min]',desc:'回車站附近還車，過馬路領回行李'},
+    {id:'3-13',time:'16:50',icon:'🏨',title:'入住 Check-in',area:'河口湖',trs:'🚶 步行 [7-10min]',desc:'先在陽台拍一張30歲的夕陽美照 🌅'},
+    {id:'3-14',time:'晚餐',icon:'🍤',title:'🍱 晚：冨士天ぷら いだ天',area:'河口湖',desc:'選手：\n・冨士天ぷら いだ天 [11:00–20:00]\n・網燒 HANA（週三公休）'},
+    {id:'3-15',time:'宵夜',icon:'🍶',title:'陽台小酌',area:'河口湖',desc:'超商買河口湖限定零食、清酒、在地水果\nOgino 河口湖店（熟食19:00後清倉）'},
+  ]},
+  {day:4,date:'5/27',wd:'週三',cities:['河口湖','東京上野'],hotel:'Ueno Touganeya Hotel',items:[
+    {id:'4-1',time:'早餐',icon:'🍳',title:'🍱 早：飯店早餐',area:'河口湖'},
+    {id:'4-2',time:'8:30',icon:'🧳',title:'退房出發！',area:'河口湖',desc:'🧳 行李寄放：河口湖車站置物櫃'},
+    {id:'4-3',time:'9:15',icon:'🚃',title:'河口湖 → 下吉田',area:'河口湖',trs:'🚇 富士急行線 [15min]'},
+    {id:'4-4',time:'9:35',icon:'⛩️',title:'新倉富士淺間神社',area:'下吉田',trs:'🚶 步行 [5min]',desc:'景觀台看五重塔＋富士山\n爬398階階梯至景觀台'},
+    {id:'4-5',time:'10:45',icon:'📸',title:'日川時計店',area:'下吉田',trs:'🚶 步行 [10min]',desc:'馬路盡頭連著富士山的爆紅大片'},
+    {id:'4-6',time:'11:30',icon:'🐟',title:'🍱 午：日本鰻 世桜',area:'下吉田',mapUrl:'https://maps.app.goo.gl/Fbp6EKrJ2X1u9iho6'},
+    {id:'4-7',time:'12:30',icon:'🚌',title:'下吉田 → 山中湖',area:'下吉田',trs:'🚌 富士急行巴士 [30min]'},
+    {id:'4-8',time:'13:30',icon:'🦢',title:'白鳥濱（餵天鵝）',area:'山中湖',trs:'🚶 步行',desc:'山中湖北側湖灘，5月常有天鵝出沒'},
+    {id:'4-9',time:'',icon:'🏔️',title:'Panorama-dai',area:'山中湖',trs:'🚕 計程車（建議預約往返）',desc:'俯瞰整個山中湖與富士山'},
+    {id:'4-10',time:'15:00',icon:'🧇',title:'🍰 THE PARK',area:'山中湖',desc:'坐在湖景第一排享用鬆餅下午茶'},
+    {id:'4-11',time:'15:53',icon:'🚌',title:'山中湖 → 河口湖站',area:'山中湖',trs:'🚌 富士急行巴士 [37min]'},
+    {id:'4-12',time:'17:41–19:48',icon:'🚇',title:'河口湖 → 新宿',area:'河口湖',trs:'🚇 富士回遊 48號 [2hr]',desc:'座位：3車14番CD',reservation:{id:'E79730',time:'17:41 發車',menu:'3車14番CD席'},isTicket:true},
+    {id:'4-13',time:'20:00',icon:'🚇',title:'新宿 → 上野',area:'東京',trs:'🚇 JR山手線 / 中央總武線 [20-30min]',desc:'使用Suica直接轉乘，不需另購票'},
+    {id:'4-14',time:'21:00',icon:'🏨',title:'飯店 Check-in',area:'上野',trs:'🚶 步行 [3-5min]',desc:'JR上野站「廣小路口」或「正面玄關口」出站'},
+    {id:'4-15',time:'晚餐',icon:'🍜',title:'🍱 晚：阿美橫丁',area:'上野',desc:'選手：\n・一蘭拉麵（上野山下口店）[24hr]\n・らーめん 鴨 to 蔥 [24hr]'},
+  ]},
+  {day:5,date:'5/28',wd:'週四',cities:['新宿','澀谷','原宿','六本木'],hotel:'Ueno Touganeya Hotel',items:[
+    {id:'5-1',time:'8:30',icon:'🌆',title:'出門！',area:'上野'},
+    {id:'5-2',time:'8:45–9:15',icon:'🚇',title:'上野 → 新宿',area:'上野',trs:'🚇 JR山手線 [30min]'},
+    {id:'5-3',time:'9:15–10:00',icon:'☕',title:'coffee swamp',area:'新宿',trs:'🚶 步行',desc:'👾 Bruce\'s 在日咖啡巡禮\n營業 07:00–10:45 / 12:15–16:00',mapUrl:'https://maps.app.goo.gl/h4gFVtinwSNdRwRL6'},
+    {id:'5-4',time:'10:30',icon:'🛍️',title:'澀谷踏踏',area:'澀谷',trs:'🚇 JR山手線 [5min]',desc:'Supreme、澀谷Loft、澀谷十字路口、Beams'},
+    {id:'5-5',time:'12:00',icon:'🍔',title:'🍱 午：極味屋 澀谷PARCO B1',area:'澀谷',trs:'🚶 步行',desc:'漢堡排！',mapUrl:'https://maps.app.goo.gl/5D4fktYzP5V2hVav6'},
+    {id:'5-6',time:'13:00',icon:'🦦',title:'若林之家 WAKABAYASHI カワウソ',area:'原宿',trs:'🚶 步行',desc:'抱抱海獺！',mapUrl:'https://maps.app.goo.gl/Ss4QufRRhinUdTSG9'},
+    {id:'5-7',time:'13:15',icon:'🚇',title:'澀谷 → 明治神宮前（原宿）',area:'澀谷',trs:'🚶 步行[15min] 或 東京Metro千代田/副都心線[2min]'},
+    {id:'5-8',time:'1.5hr',icon:'🛍️',title:'原宿、表參道踏踏',area:'原宿',trs:'🚶 步行',desc:'retaW、shiro香水、Stussy、Kiddy Land、3 Coins、Niko And&'},
+    {id:'5-9',time:'',icon:'🚇',title:'表參道 → 赤羽橋',area:'表參道',trs:'🚇 銀座線/大江戶線 [20min]',desc:'東京Metro銀座線 表參道→都營大江戶線 赤羽橋（大門站換乘）'},
+    {id:'5-10',time:'16:10',icon:'🗼',title:'散步＋拍拍東京鐵塔',area:'赤羽橋',trs:'🚶 步行 [40min]',desc:'📷 推薦拍攝點\n・Don Quijote Roppongi\n・Tower Front Kamiyacho\n・Prince Shiba Park'},
+    {id:'5-11',time:'17:00–19:00',icon:'🌆',title:'六本木新城展望台 52F',area:'六本木',trs:'🚶 步行 [10min]',desc:'停留約2小時',mapUrl:'https://maps.app.goo.gl/q3kwdfAcDEV8ztfg9',reservation:{id:'Klook 已購票',time:'',menu:''},isTicket:true},
+    {id:'5-12',time:'19:45–21:30',icon:'🍶',title:'🍱 晚：權八 西麻布 Gonpachi',area:'西麻布',trs:'🚶 步行 [10min]',mapUrl:'https://maps.app.goo.gl/mUku371d3HRSrWUZ7',reservation:{id:'已訂位',time:'19:45',menu:''},isReserved:true},
+    {id:'5-13',time:'',icon:'🚇',title:'西麻布 → 上野',area:'六本木',trs:'🚇 都營大江戶線 六本木→上野御徒町 [20min]'},
+  ]},
+  {day:6,date:'5/29',wd:'週五',cities:['日本橋','東京','銀座','惠比壽','六本木'],hotel:'Ueno Touganeya Hotel',items:[
+    {id:'6-1',time:'8:30',icon:'⛩️',title:'小網神社 [09-17]',area:'日本橋',mapUrl:'https://maps.app.goo.gl/coDJBNq435RGxGAB6'},
+    {id:'6-2',time:'',icon:'☕',title:'GLITCH TOKYO [09-18]',area:'日本橋',desc:'👾 Bruce\'s 在日咖啡巡禮',mapUrl:'https://maps.app.goo.gl/GKH1GfDmkm8Rxf9j7'},
+    {id:'6-3',time:'10:30',icon:'🍜',title:'🍱 午：五代目 花山烏冬 日本橋店',area:'日本橋',desc:'寬烏龍 [11-15:30]',mapUrl:'https://maps.app.goo.gl/NBa7TFa3AGERYpv7A'},
+    {id:'6-4',time:'14:00',icon:'🥐',title:'🍰 The Front Room Deli Marunouchi',area:'東京',desc:'法吐！！！[08-23]',mapUrl:'https://maps.app.goo.gl/5VnhPG9wC1WPaHAE9'},
+    {id:'6-5',time:'',icon:'🛍️',title:'銀座踏踏',area:'銀座',desc:'PATISSERIE TEN& 東京最好吃泡芙'},
+    {id:'6-6',time:'17:00',icon:'🥩',title:'🍱 晚：Ebisu YORONIKU 恵比寿',area:'惠比壽',mapUrl:'https://maps.app.goo.gl/FqYQVBURM7v8wPSc6',reservation:{id:'E4ZV7T',time:'17:00',menu:''},isReserved:true},
+    {id:'6-7',time:'',icon:'🌃',title:'惠比壽花園廣場 38F 夜景',area:'惠比壽',desc:'夜景！免費！[11-23:30]',mapUrl:'https://maps.app.goo.gl/RpjJS8Q2mACRKj6C9'},
+    {id:'6-8',time:'',icon:'🍮',title:'治一郎 アトレ恵比寿店 [10-21]',area:'惠比壽',desc:'買布丁！',mapUrl:'https://maps.app.goo.gl/Zsyta2Uiw71YhEiSA'},
+    {id:'6-9',time:'',icon:'🚇',title:'惠比壽 → 六本木',area:'惠比壽',trs:'🚇 東京地鐵日比谷線 [6min]'},
+    {id:'6-10',time:'22:00',icon:'🍢',title:'🍱 宵夜：MEAT MAN Roppongi',area:'六本木',desc:'招牌草莓酒、牛串、雞皮串 [17-05]',mapUrl:'https://maps.app.goo.gl/Ya1WJXPZ6A6VCvt77',reservation:{id:'6X9KQS',time:'22:00',menu:''},isReserved:true},
+  ]},
+  {day:7,date:'5/30',wd:'週六',cities:['上野','東京'],hotel:'Ueno Touganeya Hotel',items:[
+    {id:'7-1',time:'',icon:'🗼',title:'最後一天！上野・東京',area:'上野',desc:'帶著滿滿回憶的最後一天\n\n別忘了：\n・退房期限確認\n・行李打包\n・伴手禮最後採購'},
+  ]},
+  {day:8,date:'5/31',wd:'週日',cities:['東京','桃園'],hotel:'回家 🛫',items:[
+    {id:'8-1',time:'',icon:'🧳',title:'退房 & 前往機場',area:'上野',trs:'🚇 成田特快 NEX 或 利木津巴士',desc:'確認班機時間，預留充足交通時間\n⚠️ 建議出發前3小時抵達機場'},
+    {id:'8-2',time:'',icon:'✈️',title:'NRT → TPE｜返回台灣',area:'成田機場',desc:'一路順風！\n帶著滿滿的回憶與戰利品回家 🗼\n\n旅程結束，期待下次再見日本！'},
+  ]},
+];
+
+const GTASKS={
+  '行前購票':[{id:'g1',text:'購買/劃位 N\'EX（機場→東京）5/24'},{id:'g2',text:'購買/劃位 新幹線（東京→熱海）5/24'},{id:'g3',text:'領取 富士回遊號預訂票 ID: E79730'}],
+  '已確認訂位':[{id:'g4',text:'✅ 牛鍋右近 5/25 17:30 — ID: RV2WCU'},{id:'g5',text:'✅ 富士回遊48號 5/27 17:41 — 3車14番CD'},{id:'g6',text:'✅ 六本木展望台 5/28 — Klook已購票'},{id:'g7',text:'✅ 權八 西麻布 5/28 19:45'},{id:'g8',text:'✅ YORONIKU 惠比壽 5/29 17:00 — ID: E4ZV7T'},{id:'g9',text:'✅ MEAT MAN Roppongi 5/29 22:00 — ID: 6X9KQS'}],
+  '行李清單':[{id:'g10',text:'護照 + 相關文件'},{id:'g11',text:'Suica卡 / 現金日圓'},{id:'g12',text:'網路SIM卡 / eSIM'},{id:'g13',text:'充電器、行動電源'},{id:'g14',text:'藥品（感冒、腸胃、止痛）'},{id:'g15',text:'雨傘 / 折疊傘'}],
+};
+const SHOP_KEY='jp-shop';
+const SHOP_DEF=[{id:'s1',text:'箱根饅頭'},{id:'s2',text:'箱根神社御守'},{id:'s3',text:'富士山限定零食'},{id:'s4',text:'治一郎布丁'},{id:'s5',text:'東京限定零食'},{id:'s6',text:'清酒'}];
+
+// ── STATE ─────────────────────────────────────────────────────────────────────
+let curPage='home',curDay=null;
+const expanded=new Set();
+const FXR=0.218;
+
+function store(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}
+function load(k,d){try{const v=localStorage.getItem(k);return v!=null?JSON.parse(v):d}catch(e){return d}}
+function getTasks(){return load('jp-tasks',{})}
+function setTask(id,v){const t=getTasks();t[id]=v;store('jp-tasks',t)}
+function getShop(){return load(SHOP_KEY,SHOP_DEF.map(i=>({...i,done:false})))}
+function saveShop(l){store(SHOP_KEY,l)}
+
+// ── CLOCK ─────────────────────────────────────────────────────────────────────
+function jst(){
+  try{return new Date(new Date().toLocaleString('en-US',{timeZone:'Asia/Tokyo'}))}
+  catch(e){const n=new Date();return new Date(n.getTime()+9*3600000);}
+}
+function tripDay(){const n=jst(),s=new Date(2026,4,24),d=Math.floor((n-s)/86400000);return(d>=0&&d<8)?d+1:null}
+function tick(){
+  const n=jst(),hh=String(n.getHours()).padStart(2,'0'),mm=String(n.getMinutes()).padStart(2,'0');
+  const ce=document.getElementById('h-clk');if(ce)ce.textContent=hh+':'+mm;
+  const de=document.getElementById('h-dt');
+  if(de){const D=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];de.textContent=n.getFullYear()+'.'+(n.getMonth()+1)+'.'+n.getDate()+' '+D[n.getDay()]+' JST';}
+  const r=document.getElementById('tbr');if(r&&curPage==='home')r.textContent=hh+':'+mm+'\nJST';
+}
+
+// ── NAV ───────────────────────────────────────────────────────────────────────
+function goPg(name){
+  curPage=name;
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.ni').forEach(n=>n.classList.remove('active'));
+  document.getElementById('scroll').scrollTop=0;
+  const map={home:'pg-home',day:'pg-day',chk:'pg-chk',tools:'pg-tools'};
+  document.getElementById(map[name]).classList.add('active');
+  const nim={home:'ni-home',day:'ni-home',chk:'ni-chk',tools:'ni-tools'};
+  document.getElementById(nim[name]).classList.add('active');
+  const tl=document.getElementById('tbl'),tt=document.getElementById('tbt'),tr=document.getElementById('tbr');
+  if(name==='home'){tl.innerHTML='';tt.textContent='🗼 TOKYO 2026';tr.textContent='';tick();renderHome();}
+  else if(name==='day'){const d=DAYS[curDay-1];tl.innerHTML='<div class="tb-back" onclick="goPg(\'home\')">‹ 返回</div>';tt.textContent='DAY '+d.day+' · '+d.date;tr.textContent='';renderDay();}
+  else if(name==='chk'){tl.innerHTML='';tt.textContent='待辦清單';tr.textContent='';renderChk();}
+  else if(name==='tools'){tl.innerHTML='';tt.textContent='工具';tr.textContent='';renderQFx();fetchRate();loadWx('Tokyo');}
+}
+function openDay(n){curDay=n;goPg('day');}
+
+// ── HOME ─────────────────────────────────────────────────────────────────────
+function renderHome(){
+  const td=tripDay();
+  const eye=document.getElementById('h-eye');
+  if(td){const d=DAYS[td-1];eye.textContent='> DAY '+td+' · '+d.cities.join(' → ');
+    document.getElementById('today-wrap').innerHTML=`<div class="today-btn" onclick="openDay(${td})"><div><div class="tb-label">> TODAY</div><div class="tb-t">${d.date} ${d.wd} · ${d.cities.join(' → ')}</div><div class="tb-m">${d.items.length} 個行程項目</div></div><div class="tb-arr">›</div></div>`;
+  } else {eye.textContent='> 2026.05.24 – 05.31';document.getElementById('today-wrap').innerHTML='';}
+  document.getElementById('days-grid').innerHTML=DAYS.map(d=>`<div class="dc${td===d.day?' today':''}" onclick="openDay(${d.day})"><div class="dc-n">DAY ${d.day}</div><div class="dc-d">${d.date} ${d.wd}</div><div class="dc-c">${d.cities.join('\n')}</div><div class="dc-cnt">${d.items.length} items</div></div>`).join('');
+}
+
+// ── DAY ───────────────────────────────────────────────────────────────────────
+function renderDay(){
+  const d=DAYS[curDay-1];
+  document.getElementById('day-hdr').innerHTML=`<div class="dh-lb">> DAY ${d.day} · ${d.date} ${d.wd}</div><div class="dh-t">${d.cities.join(' → ')}</div><div class="dh-h">🏨 ${d.hotel}</div>`;
+  const tasks=getTasks();
+  let html='',lastArea='';
+  d.items.forEach((item,i)=>{
+    const isOpen=expanded.has(item.id);
+    const hasBody=!!(item.desc||item.mustEat||item.tasks||item.reservation||item.mapUrl);
+    if(item.area&&item.area!==lastArea){html+=`<div class="city-sep">> ${item.area}</div>`;lastArea=item.area;}
+    let badges='';
+    if(item.isReserved)badges+=`<span class="bdg bdg-r">✓ 已訂位</span>`;
+    if(item.isTicket)badges+=`<span class="bdg bdg-t">🎫 已購票</span>`;
+    let body='';
+    if(item.trs&&item.trs.length>30)body+=`<div class="blk bl"><div class="blk-lb">交通</div><div class="blk-vl">${X(item.trs)}</div></div>`;
+    if(item.desc)body+=`<div class="blk"><div class="blk-lb">說明</div><div class="blk-vl">${X(item.desc)}</div></div>`;
+    if(item.mustEat&&item.mustEat.length)body+=`<div class="blk"><div class="blk-lb">必吃推薦</div><div class="must-list" style="margin-top:4px">${item.mustEat.map(m=>`<div class="mi">${X(m)}</div>`).join('')}</div></div>`;
+    if(item.reservation){const r=item.reservation;body+=`<div class="blk bl"><div class="blk-lb">訂位資訊</div><div class="rg"><div class="rc"><div class="rc-lb">ID</div><div class="rc-vl">${X(r.id)}</div></div>${r.time?`<div class="rc"><div class="rc-lb">時間</div><div class="rc-vl">${X(r.time)}</div></div>`:''} ${r.menu?`<div class="rc" style="grid-column:1/-1"><div class="rc-lb">內容</div><div class="rc-vl">${X(r.menu)}</div></div>`:''}</div></div>`;}
+    if(item.tasks&&item.tasks.length){const tRows=item.tasks.map(t=>{const tid=item.id+'-'+btoa(encodeURIComponent(t)).slice(0,8);const dn=tasks[tid]?'done':'';return`<div class="tr ${dn}" onclick="togTask('${tid}',this)"><div class="tcb"></div><div class="t-text">${X(t)}</div></div>`;}).join('');body+=`<div class="blk"><div class="blk-lb">任務</div><div class="task-list">${tRows}</div></div>`;}
+    if(item.mapUrl)body+=`<a class="map-btn" href="${item.mapUrl}" target="_blank"><span>📍 Google Maps 導航</span></a>`;
+    html+=`<div class="ic" id="ic-${item.id}" style="animation-delay:${Math.min(i*.04,.3)}s"><div class="ic-top" onclick="togCard('${item.id}',${hasBody})"><div class="ic-r1"><div class="ic-time">${item.time||''}</div>${hasBody?`<div class="ic-arr${isOpen?' open':''}" id="arr-${item.id}">▼</div>`:''}</div><div class="ic-tr"><span class="ic-title">${item.icon} ${item.title}</span>${item.area?`<div class="atag"><span>${item.area}</span></div>`:''}</div>${item.trs&&item.trs.length<=30?`<div class="ic-trs">${X(item.trs)}</div>`:''} ${badges?`<div class="bdg-row">${badges}</div>`:''}</div>${hasBody?`<div class="ic-body${isOpen?'':' hidden'}" id="ib-${item.id}">${body}</div>`:''}</div>`;
+  });
+  document.getElementById('items-wrap').innerHTML=html;
+}
+function togCard(id,has){if(!has)return;const b=document.getElementById('ib-'+id),a=document.getElementById('arr-'+id);if(!b)return;const h=b.classList.contains('hidden');b.classList.toggle('hidden',!h);if(a)a.classList.toggle('open',h);if(h)expanded.add(id);else expanded.delete(id);}
+function togTask(tid,el){const t=getTasks(),nv=!t[tid];setTask(tid,nv);el.classList.toggle('done',nv);}
+
+// ── CHECKLIST ─────────────────────────────────────────────────────────────────
+function renderChk(){
+  const tasks=getTasks();let html='';
+  Object.entries(GTASKS).forEach(([cat,items])=>{
+    html+=`<div class="chk-sec"><div class="chk-sec-t">> ${cat}</div>`;
+    items.forEach(item=>{const dn=tasks[item.id]?'done':'';html+=`<div class="cr ${dn}" onclick="togChk('${item.id}',this)"><div class="ccb"></div><div class="cr-text">${X(item.text)}</div></div>`;});
+    html+='</div>';
+  });
+  const shop=getShop();
+  html+=`<div class="chk-sec"><div class="chk-sec-t">> 購物清單</div>`;
+  shop.forEach((item,i)=>{html+=`<div class="cr ${item.done?'done':''}" onclick="togShop(${i},this)"><div class="ccb"></div><div class="cr-text">${X(item.text)}</div></div>`;});
+  html+=`<div class="add-row"><input class="add-inp" id="si" placeholder="新增購物項目..." onkeydown="if(event.key==='Enter')addShop()"><div class="add-btn" onclick="addShop()">＋</div></div></div>`;
+  document.getElementById('chk-page').innerHTML=html;
+}
+function togChk(id,el){const t=getTasks(),nv=!t[id];setTask(id,nv);el.classList.toggle('done',nv);}
+function togShop(i,el){const l=getShop();l[i].done=!l[i].done;saveShop(l);el.classList.toggle('done',l[i].done);}
+function addShop(){const inp=document.getElementById('si'),txt=(inp.value||'').trim();if(!txt)return;const l=getShop();l.push({id:'u'+Date.now(),text:txt,done:false});saveShop(l);inp.value='';renderChk();}
+
+// ── FX ────────────────────────────────────────────────────────────────────────
+let liveRate=FXR,rateLoaded=false;
+
+async function fetchRate(){
+  const rateEl=document.getElementById('fx-rate');
+  if(rateEl)rateEl.textContent='匯率抓取中...';
+  try{
+    const r=await fetch('https://api.frankfurter.app/latest?from=JPY&to=TWD');
+    const data=await r.json();
+    const rate=data.rates&&data.rates.TWD;
+    if(rate&&rate>0){
+      liveRate=rate;rateLoaded=true;
+      if(rateEl)rateEl.textContent=`1 JPY = ${rate.toFixed(4)} TWD（${data.date} 即時匯率）`;
+      renderQFx();
+    }
+  }catch(e){
+    if(rateEl)rateEl.textContent='1 JPY ≈ 0.218 TWD（參考匯率，無法取得即時）';
+  }
+}
+function calcFx(f){const j=document.getElementById('fx-j'),t=document.getElementById('fx-t');if(f==='j'){const v=parseFloat(j.value)||0;t.value=v?Math.round(v*liveRate):'';}else{const v=parseFloat(t.value)||0;j.value=v?Math.round(v/liveRate):'';}}
+function renderQFx(){document.getElementById('qg').innerHTML=[500,1000,3000,5000,10000,30000].map(a=>`<div class="qc" onclick="setFx(${a})"><div class="qc-j">¥${a.toLocaleString()}</div><div class="qc-t">NT$ ${Math.round(a*liveRate).toLocaleString()}</div></div>`).join('');}
+function setFx(j){document.getElementById('fx-j').value=j;document.getElementById('fx-t').value=Math.round(j*liveRate);}
+
+// ── WEATHER ───────────────────────────────────────────────────────────────────
+const CITIES={Tokyo:{lat:35.6762,lon:139.6503,label:'東京'},Atami:{lat:35.0964,lon:139.0709,label:'熱海'},Hakone:{lat:35.2329,lon:139.1069,label:'箱根'},Kawaguchiko:{lat:35.5113,lon:138.7470,label:'河口湖'}};
+const WMO_ICON={0:'☀️',1:'🌤',2:'⛅',3:'☁️',45:'🌫',48:'🌫',51:'🌦',53:'🌦',55:'🌧',61:'🌧',63:'🌧',65:'🌧',71:'🌨',80:'🌦',81:'🌧',95:'⛈'};
+const WMO_DESC={0:'晴天',1:'大致晴',2:'多雲',3:'陰天',45:'霧',51:'小雨',61:'下雨',71:'下雪',80:'陣雨',95:'雷雨'};
+const wxCache={};
+function selCity(c){
+  document.querySelectorAll('.wct').forEach(t=>t.classList.toggle('active',t.textContent===CITIES[c].label));
+  loadWx(c);
+}
+async function loadWx(city){
+  const el=document.getElementById('w-disp');if(!el)return;
+  if(wxCache[city]){renderWx(wxCache[city]);return;}
+  el.innerHTML='<div class="w-msg dl"><span>.</span><span>.</span><span>.</span></div>';
+  try{
+    const {lat,lon}=CITIES[city];
+    const r=await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&daily=weathercode,temperature_2m_max,temperature_2m_min&timezone=Asia/Tokyo&forecast_days=7`);
+    const data=await r.json();wxCache[city]=data;renderWx(data);
+  }catch(e){el.innerHTML='<div class="w-msg">天氣資料載入失敗<br>請確認網路連線</div>';}
+}
+function renderWx(data){
+  const el=document.getElementById('w-disp');if(!el)return;
+  const{daily}=data;
+  const dates=['5/24','5/25','5/26','5/27','5/28','5/29','5/30','5/31'];
+  const wdays=['週日','週一','週二','週三','週四','週五','週六'];
+  let html='<div class="w-grid">';
+  for(let i=0;i<Math.min(7,daily.time.length);i++){
+    const code=daily.weathercode[i],icon=WMO_ICON[code]||WMO_ICON[Math.floor(code/10)*10]||'🌡';
+    const desc=WMO_DESC[code]||WMO_DESC[Math.floor(code/10)*10]||'—';
+    const max=Math.round(daily.temperature_2m_max[i]),min=Math.round(daily.temperature_2m_min[i]);
+    const d=new Date(daily.time[i]);
+    html+=`<div class="wc"><div class="wc-day">${dates[i]} ${wdays[d.getDay()]}</div><div class="wc-icon">${icon}</div><div class="wc-temp">${max}° / ${min}°</div><div class="wc-desc">${desc}</div></div>`;
+  }
+  el.innerHTML=html+'</div>';
+}
+
+// ── UTIL ─────────────────────────────────────────────────────────────────────
+function X(s){if(!s)return'';return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+
+// ── INIT ─────────────────────────────────────────────────────────────────────
+document.addEventListener("DOMContentLoaded",function(){tick();setInterval(tick,15000);renderHome();});
+</script>
+</body>
+</html>

@@ -1,0 +1,16 @@
+{
+  "name": "Tokyo Trip 2026",
+  "short_name": "Tokyo 2026",
+  "start_url": "/tokyo-go-2026/",
+  "display": "standalone",
+  "background_color": "#0a0910",
+  "theme_color": "#0a0910",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512' width='512' height='512'><rect width='512' height='512' fill='%230a0910'/><g fill='%23f4a8c8'><rect x='240' y='80' width='32' height='32'/><rect x='240' y='120' width='32' height='40'/><rect x='224' y='160' width='64' height='32'/><rect x='224' y='200' width='64' height='40'/><rect x='208' y='240' width='96' height='32'/><rect x='192' y='272' width='128' height='24' fill='%239ec5f5'/><rect x='192' y='296' width='32' height='64'/><rect x='288' y='296' width='32' height='64'/><rect x='176' y='360' width='160' height='24' fill='%239ec5f5'/><rect x='160' y='384' width='32' height='64'/><rect x='320' y='384' width='32' height='64'/><rect x='128' y='448' width='256' height='32'/></g></svg>",
+      "sizes": "512x512",
+      "type": "image/svg+xml"
+    }
+  ]
+}
