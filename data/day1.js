@@ -21,9 +21,9 @@ const DAY1 = {
         "[N'EX 24] 12:48~13:44\n" +
         "[N'EX 26] 13:17~14:14",
       tasks: [
-        "購買/劃位 N'EX（機場→東京）",
-        "購買/劃位 新幹線（東京→熱海）",
-        '領取 富士回遊號預訂票（5/27）',
+        "購買/劃位：N'EX（機場→東京）",
+        "購買/劃位：新幹線（東京→熱海）",
+        '取票：富士回遊號預訂票（5/27）',
       ],
     },
 
@@ -34,7 +34,7 @@ const DAY1 = {
       title: 'NRT → 東京車站',
       area: '東京',
       trs: '成田特快 NEX [1hr]',
-      desc: '🍱 午：鐵路便當',
+      desc: '🍱 午餐：鐵路便當',
     },
 
     {
@@ -55,12 +55,12 @@ const DAY1 = {
       id: '1-4',
       time: '14:30',
       icon: '🧳',
-      title: 'Check In ＋ 寄放行李',
+      title: '飯店check-in + 寄放行李',
       area: '熱海',
+      hours: '15-21',
       trs: '🚶 步行',
       desc:
-        "入住開放 15:00–21:00\n" +
-        "💰 住宿稅：200日圓現金/人",
+        "💰 住宿稅：200日圓/人,僅收現金",
       mapUrl: 'https://maps.app.goo.gl/XmnREjQLdJLxR7ucA',
     },
 
@@ -72,8 +72,8 @@ const DAY1 = {
       area: '熱海',
       trs: '🚶 步行',
       desc:
-        "🚩 椰子樹下第一排\n" +
-        "附近藥妝店可買簡易野餐墊",
+        "・🌴 椰子樹下第一排\n" +
+        "・附近藥妝店可買簡易野餐墊",
       mapUrl: 'https://maps.app.goo.gl/fbFRAGoYsgzJMBg19',
     },
 
@@ -85,10 +85,13 @@ const DAY1 = {
       area: '熱海',
       trs: '🚶 步行',
       mustEat: [
-        'Isoage Maruten Atami [09-15:30] 海鮮串・章魚天婦羅',
-        'Atami Butter An [10-18] 紅豆奶油麵包',
-        'いいらまんじゅう 阿部商店 [10-17:30] 溫泉饅頭',
-        'Atami Onsen Kameyama Shachu [10-17] 溫泉饅頭串',
+        { name: 'Isoage Maruten Atami 海鮮串・章魚天婦羅', hours: '09-15:30', mapUrl: 'https://maps.app.goo.gl/cBxfMHvM4GMb7JxS8' },
+        { name: 'Atami Butter An 紅豆奶油麵包',           hours: '10-18',    mapUrl: 'https://maps.app.goo.gl/kNfSTma6dgDJJWZV8' },
+        { name: 'いいらまんじゅう 阿部商店 溫泉饅頭',       hours: '10-17:30', mapUrl: 'https://maps.app.goo.gl/EQCZX45g32SsSQK56' },
+        { name: 'Atami Onsen Kameyama Shachu 溫泉饅頭串', hours: '10-17',    mapUrl: 'https://maps.app.goo.gl/eQnt8LRqdS1wq2oZ9' },
+        { name: 'ATAMI MILCHEES 喝的巴斯克蛋糕',          hours: '10-18',    mapUrl: 'https://maps.app.goo.gl/23Q643kPdA4kks8Y6' },
+        { name: 'Ichigo Bon Bon Berry Atami House 草莓甜品', hours: '10-19', mapUrl: 'https://maps.app.goo.gl/7QEZXMWjdxGYoMBR6' },
+        { name: '熱海スクエアシュークリーム 正方形泡芙',    hours: '10-17',    mapUrl: 'https://maps.app.goo.gl/yUUUC16edw21y6TMA' },
       ],
       mapUrl: 'https://maps.app.goo.gl/hQDeNxnt6A92ry868',
     },
@@ -96,14 +99,16 @@ const DAY1 = {
     {
       id: '1-7',
       time: '18:00',
-      icon: '🍣',
-      title: '🍱 晚：海鮮丼専門 五鉄熱海店',
+      icon: '🍱',
+      title: '晚餐：海鮮丼専門 五鉄熱海店',
+      hours: '10-16',
       area: '熱海',
       trs: '🚶 步行',
-      desc:
-        "附近\n" +
-        "熱海さとり本店 [10-18] 巨大抹茶可麗餅\n" +
-        "Atami Pudding Cafe 2nd [10-18] 布丁",
+      desc: [
+        '附近順便吃><！',
+        { text: '熱海さとり本店 巨大抹茶可麗餅', hours: '10-18', mapUrl: 'https://maps.app.goo.gl/upuAkLDZ33FL5soA7' },
+        { text: 'Atami Pudding Cafe 2nd 布丁',   hours: '10-18', mapUrl: 'https://maps.app.goo.gl/6ccxbL1cbi6tYDtN8' },
+      ],
       mapUrl: 'https://maps.app.goo.gl/UEZ5gf4ZpWd1zzhBA',
     },
 
@@ -111,10 +116,12 @@ const DAY1 = {
       id: '1-8',
       time: '20:20–20:40',
       icon: '🎆',
-      title: '熱海海上花火大會 @熱海灣',
+      title: '熱海海上花火大會 @ 熱海灣',
       area: '熱海',
       trs: '🚶 步行',
-      desc: '壓軸：「大空中尼加拉瀑布」煙火',
+      desc:
+        "・20分鐘海灘花火大會\n" +
+        "・壓軸：「大空中尼加拉瀑布」煙火",
       mapUrl: 'https://maps.app.goo.gl/LcxuHRhbQh6s2QgE8',
     },
 
@@ -124,10 +131,23 @@ const DAY1 = {
       icon: '🏪',
       title: '宵夜：超商或居酒屋',
       area: '熱海',
-      desc:
-        "Sakaba Atami [18-02] 居酒屋\n" +
-        "Atami Stand [18-00] 居酒屋\n" +
-        "MaxValu Atami [07-23:30] 超市",
+      desc: [
+        { text: 'Sakaba Atami 居酒屋',  hours: '18-02',    mapUrl: 'https://maps.app.goo.gl/aEkBXxgUvWi2qvxh6' },
+        { text: 'Atami Stand 居酒屋',   hours: '18-00',    mapUrl: 'https://maps.app.goo.gl/FbrhVm4BJVdVE63S6' },
+        { text: 'Hanakagari 居酒屋',    hours: '15:30-23:30', mapUrl: 'https://maps.app.goo.gl/QHfurTxX3W7rsTHT8' },
+        { text: 'MaxValu Atami 超市',   hours: '07-23:30', mapUrl: 'https://maps.app.goo.gl/kBHz8cDTC3eJ9L3SA' },
+      ],
+    },
+
+    {
+      id: '1-10',
+      time: '',
+      icon: '🏨',
+      title: '回家睡覺！',
+      area: '熱海',
+      tasks: [
+        "收拾行李！明天不住這！",
+      ],
     },
 
   ],

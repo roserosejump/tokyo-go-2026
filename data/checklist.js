@@ -36,10 +36,10 @@ const GTASKS = {
 };
 
 const SHOP_DEF = [
-  { id: 's1', text: '箱根饅頭' },
+  { id: 's1', text: '小山園抹茶粉' },
   { id: 's2', text: '箱根神社御守' },
   { id: 's3', text: '富士山限定零食' },
-  { id: 's4', text: '治一郎布丁' },
-  { id: 's5', text: '東京限定零食' },
-  { id: 's6', text: '??' },
+  { id: 's4', text: '富士山三角錐' },
+  { id: 's5', text: '富士山造型USB' },
+  { id: 's6', text: '治一郎布丁' },
 ];

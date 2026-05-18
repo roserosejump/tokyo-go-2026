@@ -11,7 +11,7 @@ const DAY5 = {
       id: '5-1',
       time: '8:30',
       icon: '🌆',
-      title: '出門！',
+      title: '出門啦小朋友！',
       area: '上野',
     },
 
@@ -29,11 +29,10 @@ const DAY5 = {
       time: '9:15–10:00',
       icon: '☕',
       title: 'coffee swamp',
+      hours: '07:00-10:45 / 12:15-16:00',
       area: '新宿',
       trs: '🚶 步行',
-      desc:
-        "👾 Bruce's 在日咖啡巡禮\n" +
-        "營業 07:00–10:45 / 12:15–16:00",
+      desc: "👾 Bruce's 在日咖啡巡禮",
       mapUrl: 'https://maps.app.goo.gl/h4gFVtinwSNdRwRL6',
     },
 
@@ -44,14 +43,17 @@ const DAY5 = {
       title: '澀谷踏踏',
       area: '澀谷',
       trs: '🚇 JR山手線 [5min]',
-      desc: 'Supreme、澀谷Loft、澀谷十字路口、Beams',
+      desc: '・Supreme\n'+
+            '・澀谷Loft\n'+
+            '・澀谷十字路口\n'+
+            '・Beams',
     },
 
     {
       id: '5-5',
       time: '12:00',
-      icon: '🍔',
-      title: '🍱 午：極味屋 澀谷PARCO B1',
+      icon: '🍱',
+      title: '午餐：極味屋 澀谷PARCO B1',
       area: '澀谷',
       trs: '🚶 步行',
       desc: '漢堡排！',
@@ -63,6 +65,7 @@ const DAY5 = {
       time: '13:00',
       icon: '🦦',
       title: '若林之家 WAKABAYASHI カワウソ',
+      hours: '11:00-18:30',
       area: '原宿',
       trs: '🚶 步行',
       desc: '抱抱海獺！',
@@ -85,7 +88,12 @@ const DAY5 = {
       title: '原宿、表參道踏踏',
       area: '原宿',
       trs: '🚶 步行',
-      desc: 'retaW、shiro香水、Stussy、Kiddy Land、3 Coins、Niko And&',
+      desc: '・retaW\n' +
+            '・shiro香水\n' +
+            '・Stussy\n' +
+            '・Kiddy Land\n' +
+            '・3 Coins\n' +
+            '・Niko And&',
     },
 
     {
@@ -132,8 +140,8 @@ const DAY5 = {
     {
       id: '5-12',
       time: '19:45–21:30',
-      icon: '🍶',
-      title: '🍱 晚：權八 西麻布 Gonpachi',
+      icon: '🍱',
+      title: '晚餐：權八 西麻布 Gonpachi',
       area: '西麻布',
       trs: '🚶 步行 [10min]',
       mapUrl: 'https://maps.app.goo.gl/mUku371d3HRSrWUZ7',
@@ -141,6 +149,7 @@ const DAY5 = {
         id: '已訂位',
         time: '19:45',
         menu: '',
+        tcUrl: 'https://www.google.com/maps/reserve/bookings',
       },
       isReserved: true,
     },
@@ -154,5 +163,12 @@ const DAY5 = {
       trs: '🚇 都營大江戶線 六本木→上野御徒町 [20min]',
     },
 
+    {
+      id: '5-14',
+      time: '',
+      icon: '🏨',
+      title: '回家睡覺！',
+      area: '上野',
+    },
   ],
 };

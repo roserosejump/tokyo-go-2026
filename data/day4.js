@@ -9,9 +9,9 @@ const DAY4 = {
 
     {
       id: '4-1',
-      time: '早餐',
+      time: '',
       icon: '🍳',
-      title: '🍱 早：飯店早餐',
+      title: '吃早餐：飯店早餐',
       area: '河口湖',
     },
 
@@ -19,7 +19,7 @@ const DAY4 = {
       id: '4-2',
       time: '8:30',
       icon: '🧳',
-      title: '退房出發！',
+      title: '退房！出門啦小朋友！',
       area: '河口湖',
       desc: '🧳 行李寄放：河口湖車站置物櫃',
     },
@@ -38,11 +38,12 @@ const DAY4 = {
       time: '9:35',
       icon: '⛩️',
       title: '新倉富士淺間神社',
+      hours: '09-16',
       area: '下吉田',
       trs: '🚶 步行 [5min]',
       desc:
-        "景觀台看五重塔＋富士山\n" +
-        "爬398階階梯至景觀台",
+        "・景觀台看五重塔＋富士山\n" +
+        "・爬398階階梯至景觀台",
     },
 
     {
@@ -52,14 +53,15 @@ const DAY4 = {
       title: '日川時計店',
       area: '下吉田',
       trs: '🚶 步行 [10min]',
-      desc: '馬路盡頭連著富士山的爆紅大片',
+      desc: '・馬路盡頭連著富士山的爆紅大片',
     },
 
     {
       id: '4-6',
       time: '11:30',
-      icon: '🐟',
-      title: '🍱 午：日本鰻 世桜',
+      icon: '🍱 ',
+      title: '午餐：日本鰻 世桜',
+      hours: '11-16',
       area: '下吉田',
       mapUrl: 'https://maps.app.goo.gl/Fbp6EKrJ2X1u9iho6',
     },
@@ -80,7 +82,7 @@ const DAY4 = {
       title: '白鳥濱（餵天鵝）',
       area: '山中湖',
       trs: '🚶 步行',
-      desc: '山中湖北側湖灘，5月常有天鵝出沒',
+      desc: '・山中湖北側湖灘，5月常有天鵝出沒',
     },
 
     {
@@ -90,16 +92,18 @@ const DAY4 = {
       title: 'Panorama-dai',
       area: '山中湖',
       trs: '🚕 計程車（建議預約往返）',
-      desc: '俯瞰整個山中湖與富士山',
+      desc: '・俯瞰整個山中湖與富士山',
     },
 
     {
       id: '4-10',
       time: '15:00',
       icon: '🧇',
-      title: '🍰 THE PARK',
+      title: 'THE PARK',
+      hours: '10:00-15:30',
       area: '山中湖',
-      desc: '坐在湖景第一排享用鬆餅下午茶',
+      desc: '・坐在湖景第一排享用舒芙蕾鬆餅',
+      mapUrl: 'https://maps.app.goo.gl/c7xfbJ3EJNoYomzT9',
     },
 
     {
@@ -134,7 +138,7 @@ const DAY4 = {
       title: '新宿 → 上野',
       area: '東京',
       trs: '🚇 JR山手線 / 中央總武線 [20-30min]',
-      desc: '使用Suica直接轉乘，不需另購票',
+      desc: '・使用Suica直接轉乘，不需另購票',
     },
 
     {
@@ -144,19 +148,27 @@ const DAY4 = {
       title: '飯店 Check-in',
       area: '上野',
       trs: '🚶 步行 [3-5min]',
-      desc: 'JR上野站「廣小路口」或「正面玄關口」出站',
+      desc: '・JR上野站「廣小路口」或「正面玄關口」出站',
     },
 
     {
       id: '4-15',
       time: '晚餐',
-      icon: '🍜',
-      title: '🍱 晚：阿美橫丁',
+      icon: '🍱',
+      title: '晚餐：阿美橫丁',
       area: '上野',
-      desc:
-        "選手：\n" +
-        "・一蘭拉麵（上野山下口店）[24hr]\n" +
-        "・らーめん 鴨 to 蔥 [24hr]",
+      desc: [
+        { text: '・一蘭拉麵（上野山下口店）', hours: '24hr' },
+        { text: '・らーめん 鴨 to 蔥',        hours: '24hr' },
+      ],
+    },
+
+    {
+      id: '4-16',
+      time: '',
+      icon: '🏨',
+      title: '回家睡覺！',
+      area: '上野',
     },
 
   ],

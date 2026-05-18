@@ -11,17 +11,19 @@ const DAY2 = {
       id: '2-1',
       time: '8:30',
       icon: '🍳',
-      title: '🍱 早：飯店早餐',
+      title: '吃早餐：飯店早餐',
       area: '熱海',
     },
 
     {
       id: '2-2',
       time: '9:00',
-      icon: '🧳',
-      title: '退房出門',
+      icon: '🏨',
+      title: '退房！出門啦小朋友！',
       area: '熱海',
-      desc: '退房期限 11:00',
+      desc:
+        "・退房期限 11:00\n" +
+        "・再見熱海！前往箱根 🚌",
     },
 
     {
@@ -51,7 +53,7 @@ const DAY2 = {
     {
       id: '2-5',
       time: '11:30',
-      icon: '🏃',
+      icon: '🧳',
       title: '回熱海車站 領行李',
       area: '熱海',
       trs: '🚌 巴士 或 🚇 JR伊東線',
@@ -92,9 +94,9 @@ const DAY2 = {
       area: '箱根',
       trs: '🚶 步行 [3min]',
       desc:
-        "展望咖啡廳對著「畫框富士山、蘆之湖」發呆\n" +
-        "13:00–14:00 最佳拍攝光線\n" +
-        "💰 門票：約1,500日圓（箱根周遊券折200日圓）",
+        "・展望咖啡廳對著「畫框富士山、蘆之湖」發呆\n" +
+        "・13:00–14:00 最佳拍攝光線\n" +
+        "・💰 門票：約1,500日圓（箱根周遊券折200日圓）",
       mapUrl: 'https://maps.app.goo.gl/Cc9PiRXcutDio6x26',
     },
 
@@ -106,7 +108,7 @@ const DAY2 = {
       area: '箱根',
       trs: '🚢 箱根海盜船 [30-40min]',
       desc:
-        "航行蘆之湖，尋找富士山蹤影\n" +
+        "・航行蘆之湖，尋找富士山蹤影\n" +
         "⚠️ 海盜船40分鐘一班，錯過麻煩",
       mapUrl: 'https://maps.app.goo.gl/AjizAjpUtABu1F9o7',
     },
@@ -119,7 +121,7 @@ const DAY2 = {
       area: '箱根',
       trs: '🚠 箱根空中纜車 [20min]',
       desc:
-        "高空絕景：俯瞰硫磺噴煙\n" +
+        "・高空絕景：俯瞰硫磺噴煙\n" +
         "🍘 必吃黑雞蛋（延壽7年）！5顆500日圓\n" +
         "⚠️ 在大湧谷停留40分鐘內最保險",
     },
@@ -131,7 +133,7 @@ const DAY2 = {
       title: '大涌谷 → 早雲山 → 強羅',
       area: '箱根',
       trs: '🚠 空中纜車[10min] → 🚃 斜面電車[10min]',
-      desc: '極陡坡度體驗，班次密集',
+      desc: '・極陡坡度體驗，班次密集',
     },
 
     {
@@ -156,20 +158,32 @@ const DAY2 = {
     {
       id: '2-14',
       time: '17:40',
-      icon: '🍲',
-      title: '🍱 晚：牛鍋右近 Gyunabe Ukon',
+      icon: '🍱',
+      title: '晚餐：牛鍋右近 Gyunabe Ukon',
       area: '箱根',
       trs: '🚕 計程車 [5-10min]',
       desc:
-        "【慶生晚餐】川床（河畔平台）＋ 牛肉壽喜燒\n" +
-        "18:45 才日落\n" +
+        "・【慶生晚餐】川床（河畔平台）＋ 牛肉壽喜燒\n" +
+        "・18:45 才日落\n" +
         "💰 計程車：約1,000–1,200日圓",
       reservation: {
         id: 'RV2WCU',
         time: '17:30 川戶座',
         menu: '特別課程',
+        tcUrl: 'https://www.tablecheck.com/zh-TW/reservations/RV2WCU?utm_source=tablecheck_portal',
       },
       isReserved: true,
+    },
+
+    {
+      id: '2-15',
+      time: '',
+      icon: '🏨',
+      title: '回家睡覺！',
+      area: '箱根',
+      tasks: [
+        "收拾行李！明天不住這！",
+      ],
     },
 
   ],
