@@ -73,7 +73,10 @@ const DAY6 = {
         {  name: 'PATISSERIE TEN& 東京最好吃泡芙',
           hours: '12:00–16:00/17:30–20:00',
           mapUrl: 'https://maps.app.goo.gl/4Bqq7hpgDwM3SGaX9' },
-      ]
+      ],
+      tasks: [
+        "Facncl(11-20)：卸妝油補貨",
+      ],
 
     },
 

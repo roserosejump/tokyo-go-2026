@@ -21,7 +21,7 @@ const DAY7 = {
       icon: '🥐',
       title: 'KURAMAE CANNELE 可麗露專賣店',
       area: '藏前',
-
+      hours: '11-18',
       desc: '・看你多屌！可麗露',
       mapUrl: 'https://maps.app.goo.gl/s9r3LE6AoiYXJvxV9',
     },
